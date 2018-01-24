@@ -33,8 +33,8 @@ class ThreadManager {
         if (!this.isOpen)
             throw new Error("Not open");
         const KEY = this.generateKey();
-        console.log("register: " + KEY);
-        const clear = () => { console.log("clear invoke"); delete this.threads[KEY]; };
+        // console.log("register: " + KEY)
+        const clear = () => { delete this.threads[KEY]; };
         this.threads[KEY] = { obj, clear };
         return { KEY, clear };
     }
