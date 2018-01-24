@@ -24,19 +24,19 @@ export function setInterval(func: ()=>void, intervalMillis: number, info="") {
     return ret
 }
 
-
-export function sleepInterruptibly(intervalInMillis: number): { promise: Promise<void>, clear: ()=>void} {
+// return false means interruption
+export function sleepInterruptibly(intervalInMillis: number): { promise: Promise<boolean>, clear: ()=>void} {
     let isEnd = false
     let clear = () => {}
-    const promise = new Promise<void>((res) => {
+    const promise = new Promise<boolean>((res) => {
         const c = setTimeout(()=>{
             isEnd = true
-            res()
+            res(true)
         }, intervalInMillis)
         clear = () => {
             if (!isEnd) {
                 isEnd = true
-                res()
+                res(false)
             }
             clearTimeout(c)
         }
@@ -46,5 +46,26 @@ export function sleepInterruptibly(intervalInMillis: number): { promise: Promise
 
 export function sleep(intervalInMillis: number) {
     return new Promise<void>((res) => setTimeout(()=>res(), intervalInMillis))
+}
+
+export function waitUntilInterruptibly(
+    is_job_done: ()=>boolean,
+    check_interval_mills: number,
+    maximum_waiting_mills: number = -1
+) {
+    let clear: ()=>any = ()=>{ throw new Error("Impossible to invoke") }
+    const promise = (async() => {
+        const end = maximum_waiting_mills>=0 
+            ? Date.now() + maximum_waiting_mills 
+            : Number.MAX_SAFE_INTEGER
+        while (! is_job_done()){
+            if (Date.now() > end) return false
+            const {promise, clear: _clear} = sleepInterruptibly(check_interval_mills)
+            clear = ()=>_clear()
+            if (false === await promise) return false
+        }
+        return true
+    })()
+    return { promise, clear }
 }
 
