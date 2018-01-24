@@ -13,6 +13,7 @@ export function setTimeout(func: ()=>void, timeoutMillis: number, info="") {
     return ret
 }
 
+// TODO: wrongly implementation
 export function setInterval(func: ()=>void, intervalMillis: number, info="") {
     let c = ()=>{}
     const ret = si(()=>{
@@ -27,7 +28,7 @@ export function setInterval(func: ()=>void, intervalMillis: number, info="") {
 // return false means interruption
 export function sleepInterruptibly(intervalInMillis: number): { promise: Promise<boolean>, clear: ()=>void} {
     let isEnd = false
-    let clear = () => {}
+    let clear: () => any = () => { throw new Error("Impossible to invoke") }
     const promise = new Promise<boolean>((res) => {
         const c = setTimeout(()=>{
             isEnd = true
@@ -66,6 +67,6 @@ export function waitUntilInterruptibly(
         }
         return true
     })()
-    return { promise, clear }
+    return { promise, clear: () => clear() }
 }
 
