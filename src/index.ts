@@ -7,6 +7,8 @@ export { GLOBAL_THREAD_MANAGER }
 import * as Schedule from "./Schedule"
 export { Schedule }
 
+import * as CosumerModel from "./ConsumerModel"
+
 (async ()=>{
 
     for (let i=0; i<3; ++i){
