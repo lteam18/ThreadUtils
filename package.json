@@ -1,0 +1,30 @@
+{
+  "name": "ThreadUtils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lteam18/ThreadUtils.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lteam18/ThreadUtils/issues"
+  },
+  "homepage": "https://github.com/lteam18/ThreadUtils#readme",
+  "devDependencies": {
+    "@types/node": "^9.3.0",
+    "ts-lint": "^4.5.1",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.6.2",
+    "typescript-formatter": "^7.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
